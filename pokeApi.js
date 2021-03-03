@@ -1,4 +1,5 @@
 const axios = require("axios");
+const QueryString = require("qs");
 const sqlite3 = require('sqlite3').verbose();
 const ENDPOINT_URL = 'https://pokeapi.co/api/v2/pokemon/'
 const db = new sqlite3.Database('./pokeApiRepo.db')
@@ -13,8 +14,8 @@ let resApi = [];
 module.exports.search = (function (kwd, res) {
 
     db.serialize(() => {
-        db.all("SELECT rowid,* FROM pokemon_list WHERE name MATCH ?", kwd + '*', (err, rows) => {
-            if (rows.length > 0) {
+        db.all("SELECT rowid,* FROM pokemon_list WHERE name LIKE ?", kwd + '%', (err, rows) => {
+            if (!err && rows.length > 0) {
                 let items = [];
                 for (idx in rows) {
                     items.push(getItem(rows[idx].pokemon_id, rows[idx].name, res))
