@@ -58,7 +58,6 @@ async function asyncResponse(promises, res) {
             if (pr[idx] !== undefined) responseResult.results.push(pr[idx])
         }
         responseResult.status = 200;
-        console.log(responseResult.results.length)
         return res.json(responseResult)
     });
 
